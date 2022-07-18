@@ -22,10 +22,10 @@ const UsersAdd = () => {
         event.preventDefault();
         var {userName, nickname, password, level} = document.forms[0];
         var errors = "";
-        errors += userName.value < 0 ? "Por favor llene el campo del nombre.\n": "";
-        errors += nickname.value < 0 ? "Por favor llene el campo del nickname.\n": "";
-        errors += password.value < 0 ? "Por favor llene el campo del password.\n": "";
-        errors += level.value < 0 ? "Por favor llene el campo del level.\n": "";
+        errors += userName.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += nickname.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += password.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += level.value < 0 ? "Rellene el campo incompleto.\n" : "";
         if(errors.length > 0){
             window.alert("Corrija los siguientes errores:\n"+errors);
         } else {
@@ -60,11 +60,11 @@ const UsersAdd = () => {
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <h1>Incorporación de Usuarios</h1>
+                                <h1>Incluir Nuevos Usuarios</h1>
                             </div>
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="/">Cloud Sales</a></li>
+                                    <li className="breadcrumb-item"><a href="/">Gigantes del Pacífico</a></li>
                                     <li className="breadcrumb-item"><a href="/products">Usuarios</a></li>
                                     <li className="breadcrumb-item active">Agregar</li>
                                 </ol>

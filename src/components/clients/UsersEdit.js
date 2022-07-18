@@ -23,10 +23,10 @@ const UsersEdit = () => {
         event.preventDefault();
         var { userName, nickname, password, level } = document.forms[0];
         var errors = "";
-        errors += userName.value < 0 ? "Por favor llene el campo.\n" : "";
-        errors += nickname.value < 0 ? "Por favor llene el campo.\n" : "";
-        errors += password.value < 0 ? "Por favor llene el campo.\n" : "";
-        errors += level.value === '0' ? "Por favor llene el campo.\n" : "";
+        errors += userName.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += nickname.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += password.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += level.value === '0' ? "Rellene el campo incompleto.\n" : "";
         
         if (errors.length > 0) {
             window.alert("Corrija los siguientes errores:\n" + errors);
@@ -66,7 +66,7 @@ const UsersEdit = () => {
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="/">Cloud Sales</a></li>
+                                <li className="breadcrumb-item"><a href="/">Gigantes del Pacífico</a></li>
                                 <li className="breadcrumb-item"><a href="/products">Users</a></li>
                                 <li className="breadcrumb-item active">Agregar</li>
                             </ol>
