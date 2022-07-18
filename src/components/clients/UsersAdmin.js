@@ -18,25 +18,24 @@ const UsersAdmin = () => {
         fetch(config.apiURL+"users/"+config.operatorId, requestOptions).then((response) => {
             return response.json();
         }).then((result) => {
-            
-            let usersList = result.data.map((users) => { return users; });
+            let userList = result.data.map((user) => { return user; });
             let rowData;
-            if(usersList.length === 0){
+            if(userList.length === 0){
                 rowData = (<tr><td colSpan="4" className="text-center">No existen Usuarios</td></tr>);
             } else {
-                rowData = usersList.map(p => {
+                rowData = userList.map(u => {
                     let button;
-                    if(p.active){
-                        button = <button className="btn btn-secondary" onClick={() => disable(p)}><i className="fas fa-eye-slash"></i> Deshabilitar</button>;
+                    if(u.active){
+                        button = <button className="btn btn-secondary" onClick={() => disable(u)}><i className="fas fa-eye-slash"></i> Deshabilitar</button>;
                     } else {
-                        button = <button className="btn btn-primary" onClick={() => enable(p)}><i className="fas fa-eye"></i> Habilitar</button>;
+                        button = <button className="btn btn-primary" onClick={() => enable(u)}><i className="fas fa-eye"></i> Habilitar</button>;
                     }
                     
                     return (<tr>
-                        <td>{p.name}</td><td className="text-right">${p.price}</td><td className="text-right">{p.stock}</td>
+                        <td>{u.name}</td><td >{u.nickname}</td><td >{u.password}</td><td >{u.level}</td>
                         <td className="d-flex justify-content-between">
                             {button}
-                            <button className="btn btn-warning" onClick={() => edit(p)}><i className="fas fa-pencil"></i> Editar</button>
+                            <button className="btn btn-warning" onClick={() => edit(u)}><i className="fas fa-pencil"></i> Editar</button>
                         </td>
                     </tr>); 
                 });
@@ -49,12 +48,12 @@ const UsersAdmin = () => {
         if(window.confirm("¿Está seguro/a de querer deshabilitar:\n"+user.name)){
             const requestOptionsPatch = {
                 method: 'PUT', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify({
-                        name: user.name,
-                        nickname: user.nickname,
-                        password: user.password,
-                        level: user.level,
-                        active: false
-                    })
+                    name: user.name,
+                    nickname: user.nickname,
+                    password: user.password,
+                    level: user.level,
+                    active: false
+                })
             };
             fetch(config.apiURL+"users/"+user.id, requestOptionsPatch).then((response) => {
                 return response.json();
@@ -84,8 +83,8 @@ const UsersAdmin = () => {
         }
     }
     const edit = (user) => {
-        let usersData = JSON.stringify(user);
-        sessionStorage.setItem("users", usersData);
+        let userData = JSON.stringify(user);
+        sessionStorage.setItem("user", userData);
         navigate("/users/edit");
     }
     
@@ -98,11 +97,11 @@ const UsersAdmin = () => {
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <h1>Contenedor de Usuarios</h1>
+                                <h1>Panel de Usuarios</h1>
                             </div>
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="/">Gigantes del Pacífico</a></li>
+                                    <li className="breadcrumb-item"><a href="/">Cloud Sales</a></li>
                                     <li className="breadcrumb-item active">Usuarios</li>
                                 </ol>
                             </div>
@@ -119,10 +118,11 @@ const UsersAdmin = () => {
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th>Usuarios</th>
-                                                <th>Apodo</th>
-                                                <th>Clave</th>
+                                                <th>Nombre</th>
+                                                <th>Nickname</th>
+                                                <th>Password</th>
                                                 <th>Level</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>

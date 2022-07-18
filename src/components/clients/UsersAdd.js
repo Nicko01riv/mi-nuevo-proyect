@@ -22,18 +22,17 @@ const UsersAdd = () => {
         event.preventDefault();
         var {userName, nickname, password, level} = document.forms[0];
         var errors = "";
-        errors += userName.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += nickname.valu  < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += password.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += level.value < 0 ? "Rellene el campo incompleto.\n" : "";
-
+        errors += userName.value < 0 ? "Por favor llene el campo del nombre.\n": "";
+        errors += nickname.value < 0 ? "Por favor llene el campo del nickname.\n": "";
+        errors += password.value < 0 ? "Por favor llene el campo del password.\n": "";
+        errors += level.value < 0 ? "Por favor llene el campo del level.\n": "";
         if(errors.length > 0){
             window.alert("Corrija los siguientes errores:\n"+errors);
         } else {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({  "operatorId": config.operatorId, "name": userName.value,"nickname": nickname.value, "password": password.value, "level": level.value})
+                body: JSON.stringify({ "operatorId": config.operatorId, "name": userName.value,"nickname": nickname.value, "password": password.value, "level": level.value})
               }
               fetch(config.apiURL+"users", requestOptions).then((response) => {
                 switch(response.status){
@@ -65,7 +64,7 @@ const UsersAdd = () => {
                             </div>
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="/">Gigantes del Pacífico</a></li>
+                                    <li className="breadcrumb-item"><a href="/">Cloud Sales</a></li>
                                     <li className="breadcrumb-item"><a href="/products">Usuarios</a></li>
                                     <li className="breadcrumb-item active">Agregar</li>
                                 </ol>
@@ -84,21 +83,21 @@ const UsersAdd = () => {
                                         <input type="text" name="userName" id="userName" className="form-control"required />
                                     </div>
                                 </div>
-                                    <div className="col-12">
+                                <div className="col-4">
                                     <div className="form-group">
-                                        <label htmlFor="nickName" className="control-label">NickName</label>
-                                        <input type="text" name="nickName" id="nickName" className="form-control"required />
+                                        <label htmlFor="nickname" className="control-label">nickname</label>
+                                        <input type="text" name="nickname" id="nickname" className="form-control" required />
                                     </div>
                                 </div>
-                            <div className="col-12">
+                                <div className="col-4">
                                     <div className="form-group">
-                                        <label htmlFor="password" className="control-label">Password</label>
-                                        <input type="password" name="password" id="pass" className="form-control"required />
+                                        <label htmlFor="password" className="control-label">password</label>
+                                        <input type="text" name="password" id="password" className="form-control" required />
                                     </div>
                                 </div>
-                            <div className="col-12">
+                                <div className="col-4">
                                     <div className="form-group">
-                                    <label htmlFor="level" className="control-label">level</label>
+                                        <label htmlFor="level" className="control-label">level</label>
                                         <select name="level" id="level" className="form-control">
                                             <option value="0">--Seleccione</option>
                                             <option value="admin">admin</option>
@@ -108,8 +107,6 @@ const UsersAdd = () => {
                                     </div>
                                 </div>
                             </div>
-            
-            
                             <div className="d-flex justify-content-between">
                                 <button type="button" onClick={cancel} className="btn btn-secondary"><i className="fas fa-times"></i> Cancelar</button>
                                 <button type="submit" className="btn btn-primary"><i className="fas fa-save"></i> Guardar</button>
