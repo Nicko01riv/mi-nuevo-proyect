@@ -98,7 +98,7 @@ const UsersAdd = () => {
                                 </div>
                             <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="level" className="control-label">Level</label>
+                                    <label htmlFor="level" className="control-label">level</label>
                                         <select name="level" id="level" className="form-control">
                                             <option value="0">--Seleccione</option>
                                             <option value="admin">admin</option>

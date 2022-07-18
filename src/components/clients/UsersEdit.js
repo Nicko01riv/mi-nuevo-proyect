@@ -21,11 +21,11 @@ const UsersEdit = () => {
 
     const save = async (event) => {
         event.preventDefault();
-        var { usersName, usersApodo, usersClave, usersAdmin } = document.forms[0];
+        var { userName, nickname, password, level } = document.forms[0];
         var errors = "";
-        errors += usersName.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += userName.value < 0 ? "Rellene el campo incompleto.\n" : "";
         errors += nickname.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += password.valu < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += password.value < 0 ? "Rellene el campo incompleto.\n" : "";
         errors += level.value < 0 ? "Rellene el campo incompleto.\n" : "";
         if (errors.length > 0) {
             window.alert("Corrija los siguientes errores:\n" + errors);
@@ -33,7 +33,7 @@ const UsersEdit = () => {
             const requestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ "operatorId": config.operatorId, "name": userName.value, "nickname": nickname.value, "password": password.value, "level": level.value, "active": userData.active })
+                body: JSON.stringify({ "operatorId": config.operatorId, "name": userName.value, "nickname": nickname.value, "password": password.value, "level": level.value, "active": usersData.active})
             }
             fetch(config.apiURL + "users/" + usersData.id, requestOptions).then((response) => {
                 switch (response.status) {
@@ -99,8 +99,7 @@ const UsersEdit = () => {
                                 </div>
                                 <div className="col-4">
                                     <div className="form-group">
-                                        <label htmlFor="usersLevel" className="control-label">Level</label>
-                                        <input type="text" name="usersLevel" id="usersLevel" className="form-control" defaultValue={usersData.rol} required />
+                                    <label htmlFor="level" className="control-label">Level</label>
                                         <select name="level" id="level" className="form-control">
                                             <option value="0">-- --Seleccione</option>
                                             <option value="admin">Admin</option>
