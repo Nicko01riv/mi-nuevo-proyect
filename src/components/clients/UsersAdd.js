@@ -7,8 +7,8 @@ import config from './../../helpers/config.json';
 const UsersAdd = () => {
     let navigate = useNavigate(); 
     const cancel = () => {
-        var {usersName, usersApodo, usersClave, usersAdmin} = document.forms[0]; 
-        var hasChanges = usersName.value.length > 0 ||  usersApodo.value.length > 0 || usersClave.value.length > 0 || usersAdmin.value.length > 0;
+        var {userName, nickname, password, level} = document.forms[0]; 
+        var hasChanges = userName.value.length > 0 ||  nickname.value.length > 0 || password.value.length > 0 || level.value.length > 0;
         if(hasChanges){
             if(window.confirm("Existen cambios sin guardar. ¿Seguro de querer cancelar?")){
                 navigate("/users");
@@ -20,12 +20,12 @@ const UsersAdd = () => {
 
     const save = async (event) => {
         event.preventDefault();
-        var {usersName, usersApodo, usersClave, usersAdmin} = document.forms[0]; 
+        var {userName, nickname, password, level} = document.forms[0];
         var errors = "";
-        errors += usersName.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += usersApodo.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += usersClave.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += usersAdmin.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += userName.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += nickname.valu  < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += password.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += level.value < 0 ? "Rellene el campo incompleto.\n" : "";
 
         if(errors.length > 0){
             window.alert("Corrija los siguientes errores:\n"+errors);
@@ -33,7 +33,7 @@ const UsersAdd = () => {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify({ "operatorId": config.operatorId, "name": usersName.value,"nickname": usersApodo.value,"pasword": usersClave.value,"level": usersAdmin.value})
+                body: JSON.stringify({  "operatorId": config.operatorId, "name": userName.value,"nickname": nickname.value, "password": password.value, "level": level.value})
               }
               fetch(config.apiURL+"users", requestOptions).then((response) => {
                 switch(response.status){
@@ -99,7 +99,12 @@ const UsersAdd = () => {
                             <div className="col-12">
                                     <div className="form-group">
                                         <label htmlFor="level" className="control-label">Level</label>
-                                        <input type="text" name="level" id="level" className="form-control"required />
+                                        <select name="level" id="level" className="form-control">
+                                            <option value="0">--Seleccione</option>
+                                            <option value="admin">admin</option>
+                                            <option value="seller">seller</option>
+                                            
+                                        </select>
                                     </div>
                                 </div>
                             </div>

@@ -8,8 +8,8 @@ const UsersEdit = () => {
     let navigate = useNavigate();
     let usersData = JSON.parse(sessionStorage.getItem("users"));
     const cancel = () => {
-        var { usersName, usersApodo, usersClave, usersAdmin } = document.forms[0];
-        var hasChanges = usersName.value.length > 0 || usersApodo.value.length > 0 || usersClave > 0 || usersAdmin > 0;
+        var { userName, nickname, password, level } = document.forms[0];
+        var hasChanges = userName.value.length > 0 || nickname.value.length > 0 || password.value.length > 0 || level.value.length > 0;
         if (hasChanges) {
             if (window.confirm("Existen cambios sin guardar. ¿Seguro de querer cancelar?")) {
                 navigate("/users");
@@ -24,16 +24,16 @@ const UsersEdit = () => {
         var { usersName, usersApodo, usersClave, usersAdmin } = document.forms[0];
         var errors = "";
         errors += usersName.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += usersApodo.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += usersClave.value < 0 ? "Rellene el campo incompleto.\n" : "";
-        errors += usersAdmin.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += nickname.value < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += password.valu < 0 ? "Rellene el campo incompleto.\n" : "";
+        errors += level.value < 0 ? "Rellene el campo incompleto.\n" : "";
         if (errors.length > 0) {
             window.alert("Corrija los siguientes errores:\n" + errors);
         } else {
             const requestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ "operatorId": config.operatorId, "name": usersName.value, "nickname": usersApodo.value, "password": usersClave, "level": usersAdmin, "active": usersData})
+                body: JSON.stringify({ "operatorId": config.operatorId, "name": userName.value, "nickname": nickname.value, "password": password.value, "level": level.value, "active": userData.active })
             }
             fetch(config.apiURL + "users/" + usersData.id, requestOptions).then((response) => {
                 switch (response.status) {
@@ -61,7 +61,7 @@ const UsersEdit = () => {
                 <div className="container-fluid">
                     <div className="row mb-2">
                         <div className="col-sm-6">
-                            <h1>Incorporación de Usuarios</h1>
+                            <h1>Edicion de Usuarios</h1>
                         </div>
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
@@ -101,6 +101,11 @@ const UsersEdit = () => {
                                     <div className="form-group">
                                         <label htmlFor="usersLevel" className="control-label">Level</label>
                                         <input type="text" name="usersLevel" id="usersLevel" className="form-control" defaultValue={usersData.rol} required />
+                                        <select name="level" id="level" className="form-control">
+                                            <option value="0">-- --Seleccione</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="seller">Seller</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className="col-4">

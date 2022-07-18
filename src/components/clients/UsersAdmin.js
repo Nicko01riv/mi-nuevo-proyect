@@ -45,18 +45,18 @@ const UsersAdmin = () => {
         });
     };
 
-    const disable = (users) => {
-        if(window.confirm("¿Está seguro/a de querer deshabilitar:\n"+users.name)){
+    const disable = (user) => {
+        if(window.confirm("¿Está seguro/a de querer deshabilitar:\n"+user.name)){
             const requestOptionsPatch = {
                 method: 'PUT', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify({
-                    operatorId: config.operatorId,
-                    name: users.name,
-                    nickname: users.apodo,
-                    password: users.clave,
-                    level: users.admin,
-                })
+                        name: user.name,
+                        nickname: user.nickname,
+                        password: user.password,
+                        level: user.level,
+                        active: false
+                    })
             };
-            fetch(config.apiURL+"users/"+users.id, requestOptionsPatch).then((response) => {
+            fetch(config.apiURL+"users/"+user.id, requestOptionsPatch).then((response) => {
                 return response.json();
             }).then((result) => {
                 updateUsers();
@@ -64,19 +64,18 @@ const UsersAdmin = () => {
             });   
         }
     }
-    const enable = (users) => {
-        if(window.confirm("¿Está seguro/a de querer volver a habilitar:\n"+users.name)){
+    const enable = (user) => {
+        if(window.confirm("¿Está seguro/a de querer volver a habilitar:\n"+user.name)){
             const requestOptionsPatch = {
                 method: 'PUT', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify({
-                    operatorId: config.operatorId,
-                    name: users.name,
-                    nickname: users.apodo,
-                    password: users.clave,
-                    level: users.admin,
-                    active: false
+                    name: user.name,
+                    nickname: user.nickname,
+                    password: user.password,
+                    level: user.level,
+                    active: true
                 })
             };
-            fetch(config.apiURL+"users/"+users.id, requestOptionsPatch).then((response) => {
+            fetch(config.apiURL+"users/"+user.id, requestOptionsPatch).then((response) => {
                 return response.json();
             }).then((result) => {
                 updateUsers();
@@ -84,8 +83,8 @@ const UsersAdmin = () => {
             });   
         }
     }
-    const edit = (users) => {
-        let usersData = JSON.stringify(users);
+    const edit = (user) => {
+        let usersData = JSON.stringify(user);
         sessionStorage.setItem("users", usersData);
         navigate("/users/edit");
     }
