@@ -83,7 +83,10 @@ class Sales extends React.Component{
                                             <option value="0">--Seleccione</option>
                                             {clientList.map(client => (
                                                 <option key={client.id} value={client.id}>
-                                                    {client.name}
+                                                    {client.active ? client.name: function ocultar(){
+                                                    document.getElementById('client.id').style.display = 'none';
+                                                                                                            }} 
+            
                                                 </option>
                                             ))}
                                     
