@@ -209,7 +209,7 @@ class Sales extends React.Component{
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th>Producto</th>
+                                                <th>Product</th>
                                                 <th>Cantidad</th>
                                                 <th>Total</th>
                                                 <th>Accion</th>
