@@ -17,7 +17,9 @@ class Sales extends React.Component{
             MDPrice: 0,
             MDPercentage: 0,
             active: true
-        }
+        },
+
+        cart: [],
     
 
     }   
@@ -31,6 +33,45 @@ class Sales extends React.Component{
         });
         }
 
+    calculateTotal = () => {
+        let product = this.state.product;
+        let qty = document.getElementById("qty").value;
+        let discount = document.getElementById("discount").value;
+        let isPercentage = discount.indexOf("%") > -1;
+        if(isPercentage){
+            discount = discount.replace("%", "") / 100;
+            product.total = (product.price * qty)-(product.price * qty * discount);
+        } else {
+            product.total = (product.price * qty)-discount;
+        }
+        this.setState({
+            product: product
+        });
+
+    }
+
+    addToCart = () => {
+        let product = this.state.product;
+        let errors = "";
+        let qty = document.getElementById("qty").value;
+        let discount = document.getElementById("discount").value;
+        let isPercentage = discount.indexOf("%") > -1;
+        errors += product.name === "" ? "Seleccione un producto\n" : "";
+        errors += isPercentage & parseInt(discount.replace("%","")) > product.MDPercentage ? "No puede descontar mas del "+product.MDPercentage+"%\n" : "";
+        errors += isPercentage & parseInt(discount) > product.MDPrice ? "No puede descontar mas de "+product.MDPrice+"%\n" : "";
+        errors += qty > product.stock ? "No puede vender mas de "+product.stock+"\n" : "";
+        if(errors.length > 0){
+            alert(errors);
+        
+        } else {
+            let cartRow = {productId: product.id, productName: product.name, qty: qty, price: product.price,discount: discount,total: product.total };
+            this.setState({
+                cart: [...this.state.cart, cartRow]
+            });
+        }
+
+
+    }
         componentDidMount() {
         const requestOptions = {
             method: 'GET', headers: { 'Content-Type': 'application/json'}
@@ -135,29 +176,29 @@ class Sales extends React.Component{
                                 <div className="col-4">
                                     <div className="form-group">
                                         <label className="label-control" >Cantidad</label>
-                                        <input className="form-control" type="number" name="qty" id="qty" />
+                                        <input className="form-control" type="number" name="qty" id="qty" onChange={this.calculateTotal}/>
                                     </div>
                                 </div>
                                 <div className="col-4">
                                     <div className="form-group">
                                         <label className="label-control">Unitario</label>
-                                        <input className="form-control" type="number" name="unitary" id="unitary" readOnly="readonly" value={this.state.product.price}/>
+                                        <input className="form-control" type="number" name="unitary" id="unitary" readOnly={true} value={this.state.product.price}/>
                                     </div>
                                 </div>
                                 <div className="col-4">
                                     <div className="form-group">
                                         <label className="label-control" >Descuento</label>
-                                        <input className="form-control" type="number" name="discount" id="discount" />
+                                        <input className="form-control" type="number" name="discount" id="discount" onChange={this.calculateTotal}/>
                                     </div>
                                 </div>
                                 <div className="col-4">
                                     <div className="form-group">
                                         <label className="label-control" >Total</label>
-                                        <input className="form-control" type="number" name="total" id="total" />
+                                        <input className="form-control" type="number" name="total" id="total" readOnly={true} value={this.state.product.total}/>
                                     </div>
                                 </div>
                                 <div className="col-12">
-                                    <button className="btn btn-primary btn-block">
+                                    <button className="btn btn-primary btn-block" onClick={this.addToCart}>
                                         <i className="fas fa-cart-plus" />Agregar
                                     </button>
                                 </div>
@@ -174,6 +215,16 @@ class Sales extends React.Component{
                                                 <th>Accion</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                        {this.state.cart.map(cl => (
+                                           <tr>
+                                            <td>{cl.productName}</td>
+                                            <td>{cl.qty}</td>
+                                            <td>{cl.total}</td>
+                                            <td><button className="btn btn-danger"><i className="fas fa-trash"></i></button></td>
+                                           </tr> 
+                                        ))}
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div className="col-6">
